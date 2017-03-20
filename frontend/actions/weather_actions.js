@@ -17,3 +17,8 @@ export const fetchWeather = query => (
   dispatch => (WeatherApiUtil.fetchWeather(query)
     .then(data => dispatch(receiveWeather(data))))
 );
+
+export const fetchBatchWeather = array => (
+  dispatch => (WeatherApiUtil.fetchBatchWeather(array)
+    .then(datas => dispatch(receiveWeather(datas))))
+);

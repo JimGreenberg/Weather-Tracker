@@ -1,7 +1,7 @@
 class Api::CitiesController < ApplicationController
 
   def index
-    @cities = City.all
+    @cities = current_user.cities
     render :index
   end
 
@@ -39,6 +39,6 @@ class Api::CitiesController < ApplicationController
 
   private
   def city_params
-    params.require(:city).permit(:name, :user_id, :min, :max, :id)
+    params.require(:city).permit(:name, :user_id, :min, :max, :id, :api_code)
   end
 end

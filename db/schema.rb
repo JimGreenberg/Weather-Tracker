@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170320145942) do
+ActiveRecord::Schema.define(version: 20170320230530) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20170320145942) do
     t.integer  "max",        null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "api_code",   null: false
     t.index ["user_id", "name"], name: "index_cities_on_user_id_and_name", unique: true, using: :btree
   end
 
