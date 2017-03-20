@@ -12,11 +12,9 @@
 
 class User < ApplicationRecord
 
-  has_many :cities
+  has_many :cities,
     foreign_key: :user_id,
     class_name: :City
-
-
 
   ###AUTH###
   before_validation :ensure_session_token

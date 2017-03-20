@@ -25,4 +25,3 @@ class ApplicationController < ActionController::Base
     params.require(:user).permit(:username, :password, :id)
   end
 end
-end
