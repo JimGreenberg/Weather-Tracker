@@ -9,7 +9,7 @@ const CitiesReducer = (oldState = {}, action) => {
     case RECEIVE_CITIES:
       return merge({}, oldState, action.cities);
     case RECEIVE_CITY:
-      return merge({}, oldState, {[action.city.id]: action.city});
+      return merge({}, oldState, {[action.city.api_code]: action.city});
     case REMOVE_CITY:
       let newState = merge({}, oldState);
       delete newState[action.city.id];

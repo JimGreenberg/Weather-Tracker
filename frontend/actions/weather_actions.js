@@ -1,4 +1,4 @@
-import * as WeatherApiUtil from './util/weather_api_util';
+import * as WeatherApiUtil from '../util/weather_api_util';
 
 export const RECEIVE_WEATHER = 'RECEIVE_WEATHER';
 export const RECEIVE_BATCH_WEATHER = 'RECEIVE_BATCH_WEATHER';
