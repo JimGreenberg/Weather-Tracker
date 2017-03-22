@@ -123,13 +123,13 @@ class MainViewContainer extends React.Component {
         onClick={() => this.setMain(city)}>
           {this.barMaker(city)}
           <p>{city.name}</p>
-          <p>{Math.floor(city.main.temp)}</p>
+          <p>{`${Math.floor(city.main.temp)}˚F`}</p>
       </li>
     ));
 
     return (
-      <div>
-        <Navbar location="/" />
+      <div className='mainview-wrapper'>
+        <Navbar />
         <div className='content-wrapper'>
           <WeatherDetailView
             currentId={this.state.currentId}

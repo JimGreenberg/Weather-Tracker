@@ -125,7 +125,7 @@ class WeatherDetailView extends React.Component {
     const weather = this.state.currentWeather;
 
     return(
-      <div className='detail-view'>
+      <div className='detail-view left'>
         <form id='search' onSubmit={this.handleSearch}>
           <input
             type='text'
@@ -135,26 +135,38 @@ class WeatherDetailView extends React.Component {
           <button form='search' type='submit'><i className='fa fa-search'/></button>
         </form>
 
-        <p>{weather.name}</p>
-        {this.favoriteButton()}
-
-        <p>{Math.floor(weather.main.temp)}</p>
-        <input
-          type='text'
-          value={this.state.min}
-          placeholder='Min'
-          onChange={this.update('min')} />
-        <input
-          type='text'
-          value={this.state.max}
-          placeholder='Max'
-          onChange={this.update('max')} />
-        <button
-          style={{display: this.state.buttonWillAdd ? 'none' : 'visible'}}
-          onClick={this.handleUpdateCity}><i
-          className='fa fa-arrow-circle-up'/>
+        <div className='detail-heading'>
+          <p>{weather.name}</p>
+          {this.favoriteButton()}
+        </div>
+        <div className='main-detail'>
+          <img src={`http://openweathermap.org/img/w/${weather.weather.icon}.png`}/>
+          <p className='temp'>{`${Math.floor(weather.main.temp)}˚F`}</p>
+        </div>
+        <div className='range-wrapper'>
+          <label>minimum
+          <input
+            className='temp-range'
+            type='text'
+            value={this.state.min}
+            placeholder='Min'
+            onChange={this.update('min')} />˚F
+          </label>
+          <button
+            style={{display: this.state.buttonWillAdd ? 'none' : 'visible'}}
+            onClick={this.handleUpdateCity}><i
+            className='fa fa-arrow-circle-up'/>
           Update City
         </button>
+          <label>maximum
+        <input
+            className='temp-range'
+            type='text'
+            value={this.state.max}
+            placeholder='Max'
+            onChange={this.update('max')} />˚F
+          </label>
+        </div>
       </div>
     );
   }

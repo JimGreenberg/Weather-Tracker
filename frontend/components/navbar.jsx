@@ -17,17 +17,10 @@ class Navbar extends React.Component {
     this.signOut = this.props.signOut.bind(this);
   }
 
-  navLink() {
-    return this.props.location === '/' ?
-      <Link to={'/'}>Home</Link> :
-      <Link to={'/profile'}>Profile</Link>;
-  }
-
   render() {
     return (
       <div className='navbar'>
         <p>Welcome {this.props.currentUser.username}</p>
-        {this.navLink()}
         <button onClick={this.signOut}>Log Out</button>
       </div>
     );
