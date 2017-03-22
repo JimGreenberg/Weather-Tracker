@@ -37,7 +37,7 @@ class MainViewContainer extends React.Component {
   }
 
   dummyWeather() {
-    return {name: "", main: {temp: ""}, weather:[{icon:""}]};
+    return {name: "", main: {temp: ""}, weather:[{icon:"d10"}]};
   }
 
   componentWillMount() {
