@@ -21,6 +21,7 @@ class LoginContainer extends React.Component {
     this.update = this.update.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
     this.handleSignin = this.handleSignin.bind(this);
+    this.handleGuest = this.handleGuest.bind(this);
     this.state = {
       signUp: {
         username: "",
@@ -85,7 +86,7 @@ class LoginContainer extends React.Component {
               placeholder='Password'
               onChange={this.update("password")} />
             <button type="submit" form="signIn">Sign In</button>
-            <button type="submit" form="signIn">Sign In</button>
+            <button onClick={this.handleGuest}>Guest Login</button>
           </form>
         </div>
 
