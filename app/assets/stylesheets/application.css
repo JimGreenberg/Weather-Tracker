@@ -70,6 +70,7 @@ ul {
   margin: 20px;
   padding: 10px;
   height: auto;
+  overflow-y: scroll;
 }
 li {
   margin: 10px;

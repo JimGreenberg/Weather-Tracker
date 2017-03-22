@@ -34,6 +34,11 @@ export const updateCity = city => (
     .then(city => dispatch(receiveCity(city))))
 );
 
+export const addCity = city => (
+  dispatch => (CityApiUtil.addCity(city)
+    .then(city => dispatch(receiveCity(city))))
+);
+
 export const fetchCities = user_id => (
   dispatch => (CityApiUtil.fetchCities(user_id)
     .then(cities => dispatch(receiveCities(cities))))

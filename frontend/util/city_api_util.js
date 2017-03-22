@@ -26,3 +26,11 @@ export const updateCity = city => {
     data: {city}
   });
 };
+
+export const addCity = city => {
+  return $.ajax({
+    method: "POST",
+    url: `/api/users/${city.user_id}/cities/`,
+    data: {city}
+  });
+};

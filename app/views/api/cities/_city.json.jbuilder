@@ -1,1 +1,1 @@
-json.merge! city
+json.merge! city.as_json

@@ -7,7 +7,7 @@ const WeatherReducer = (oldState = {}, action) => {
 
   switch(action.type) {
     case RECEIVE_BATCH_WEATHER:
-      return merge({}, oldState, action.datas);
+      return merge({}, action.datas);
     case RECEIVE_WEATHER:
       return merge({}, oldState, {[action.data.id]: action.data});
     default:

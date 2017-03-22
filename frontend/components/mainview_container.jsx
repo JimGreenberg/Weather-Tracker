@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import Navbar from './navbar';
-import {fetchCity, fetchCities} from '../actions/city_actions';
-import {fetchWeather, fetchBatchWeather} from '../actions/weather_actions';
+import WeatherDetailView from './weather_detail_view';
+import {fetchCity, fetchCities, updateCity, deleteCity} from '../actions/city_actions';
+import {fetchBatchWeather} from '../actions/weather_actions';
+import {fetchWeather} from '../util/weather_api_util';
 
   const mapStateToProps = state => ({
     currentUser: state.session.currentUser,
@@ -11,67 +13,102 @@ import {fetchWeather, fetchBatchWeather} from '../actions/weather_actions';
   });
 
   const mapDispatchToProps = dispatch => ({
+    updateCity: city => dispatch(updateCity(city)),
     fetchCity: city_id => dispatch(fetchCity(city_id)),
+    deleteCity: city_id => dispatch(deleteCity(city_id)),
     fetchCities: user_id => dispatch(fetchCities(user_id)),
-    fetchWeather: query => dispatch(fetchWeather(query)),
-    fetchBatchWeather: array => dispatch(fetchBatchWeather(array)),
+    fetchBatchWeather: query => dispatch(fetchBatchWeather(query)),
   });
 
 class MainViewContainer extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {weather: []};
+    this.state = {
+      weather: [],
+      search: "",
+      currentId: 0,
+      currentWeather: {name: "test", main: {temp: ""}}
+    };
     this.reloadWeather = this.reloadWeather.bind(this);
+    this.sortBars = this.sortBars.bind(this);
+    this.update = this.update.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.order = this.order.bind(this);
   }
 
   componentWillMount() {
     this.props.fetchCities(this.props.currentUser.id)
-    .then(this.reloadWeather)
-    .then(this.sortWeather);
+    .then(this.reloadWeather);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.weather !== this.props.weather) {
+      const weather = nextProps.weather.list || [];
+      this.setState({weather},()=> {
+        if (this.state.weather.length) {this.setMain();}
+      });
+    }
+  }
+
+  setMain() {
+    let currentWeather = this.state.weather[0] || {name: "test2", main: {temp: ""}};
+    let currentId = this.state.weather[0].id || 0;
+    this.setState({currentWeather, currentId});
   }
 
   reloadWeather() {
-    if (!!this.props.cities) {
-      this.props.fetchBatchWeather(
-        Object.keys(this.props.cities).map(id => (
-          this.props.cities[id].api_code
-        ))
-      );
-    }
+    const query = Object.keys(this.props.cities).join(',');
+    if (query) {this.props.fetchBatchWeather(query);}
   }
 
-  sortWeather() {
-    let weather;
-    if (Object.keys(this.props.weather).length) {
-      weather = this.props.weather.undefined.list;
-    } else {
-      weather = [];
-    }
-    this.state.weather = weather.sort((a, b) => (
-      this.barPercent(a) > this.barPercent(b) ? 1 : -1
+  sortBars(array) {
+    if (!array.length) return [];
+    return array.sort((a, b) => (
+      this.order(a) < this.order(b) ? 1 : -1
     ));
   }
 
+  handleSearch(e) {
+    e.preventDefault();
+    fetchWeather(e.target.firstChild.value)
+    .then(currentWeather => this.setState({currentWeather}));
+  }
+
+  update(field) {
+    return e => {
+      this.setState({[field]: e.currentTarget.value});
+    };
+  }
+
   barPercent(city) {
-    let userCity = this.props.cities[city.id];
-    let avg = (userCity.max + userCity.min) / 2;
-    return 100 - Math.floor(100 * Math.abs(avg - city.main.temp) / avg);
+    if (this.props.cities[city.id]) {
+      const userCity = this.props.cities[city.id];
+      const avg = (userCity.max + userCity.min) / 2;
+      return 100 - Math.floor(100 * Math.abs(avg - city.main.temp) / avg);
+    }
   }
 
   linePercent(city) {
-    const userCity = this.props.cities[city.id];
-    const avg = (userCity.max + userCity.min) / 2;
-    return 100 - Math.floor(100 * Math.abs(avg - userCity.max) / avg);
+    if (this.props.cities[city.id]) {
+      const userCity = this.props.cities[city.id];
+      const avg = (userCity.max + userCity.min) / 2;
+      return 100 - Math.floor(100 * Math.abs(avg - userCity.max) / avg);
+    }
+  }
+
+  order(city) {
+    return this.barPercent(city) - this.linePercent(city);
   }
 
   barMaker(city) {
-    const linePercent = this.linePercent(city);
     const barPercent = this.barPercent(city);
+    const linePercent = this.linePercent(city);
+    const order = this.order(city);
     return  <div className='bar'>
               <div className='fillbar'
                 style={{
                   width: `${barPercent}%`,
-                  background: `hsl(${barPercent/linePercent * 130 - 80}, 85%, 45%)`
+                  background: `hsl(${order * 4 + 55}, 85%, 45%)`
                 }}>
               </div>
               <div className='bound-line' style={{width: `${linePercent}%`}}></div>
@@ -79,22 +116,30 @@ class MainViewContainer extends React.Component {
   }
 
   render() {
-    const cityBars = this.state.weather.map(city => {
-      return <li key={city.id}>
-        {this.barMaker(city)}
-        <p>{city.name}</p>
-        <p>{Math.floor(city.main.temp)}</p>
-      </li>;
-    });
+    const sorted = this.sortBars(this.state.weather);
+    const cityBars = sorted.map(city => (
+      <li key={city.id}>
+          {this.barMaker(city)}
+          <p>{city.name}</p>
+          <p>{Math.floor(city.main.temp)}</p>
+      </li>
+    ));
+
     return (
       <div>
-        <Navbar location="/"/>
+        <Navbar location="/" />
         <div className='content-wrapper'>
-          <div className='left'>
-            {this.state.weather[0]}
-          </div>
+          <WeatherDetailView
+            currentId={this.state.currentId}
+            currentWeather={this.state.currentWeather}
+            reloadWeather={this.reloadWeather} />
           <div className='right'>
-            <button className='reload' onClick={this.reloadWeather}>Relaod</button>
+            <button
+              className='reload'
+              onClick={this.reloadWeather}>
+              <i className='fa fa-refresh'/>
+              Reload
+            </button>
             <ul>
               {cityBars}
             </ul>
