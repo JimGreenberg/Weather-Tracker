@@ -8,7 +8,7 @@
 /.bundle
 
 node_modules
-
+bundle.js
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
