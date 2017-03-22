@@ -140,7 +140,7 @@ class WeatherDetailView extends React.Component {
           {this.favoriteButton()}
         </div>
         <div className='main-detail'>
-          <img src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`}/>
+          <img src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`}/>
           <p className='temp'>{`${Math.floor(weather.main.temp)}˚F`}</p>
         </div>
         <div className='range-wrapper'>
