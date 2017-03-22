@@ -1,5 +1,5 @@
-// const apiKey = '0c6887ca19ca753c65c470a739cbd8c6'; // please don't steal
-const apiKey =  'f816d7f39052e3a98b21952097a43076';
+const apiKey = '0c6887ca19ca753c65c470a739cbd8c6'; // please don't steal
+// const apiKey =  'f816d7f39052e3a98b21952097a43076';
 export const fetchWeather = query => {
   const type = !!parseInt(query) ? 'id' : 'q';
   return $.ajax({
