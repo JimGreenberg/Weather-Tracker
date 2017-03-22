@@ -50,9 +50,9 @@ class MainViewContainer extends React.Component {
     }
   }
 
-  setMain() {
-    let currentWeather = this.state.weather[0] || {name: "test2", main: {temp: ""}};
-    let currentId = this.state.weather[0].id || 0;
+  setMain(city = this.state.weather[0]) {
+    let currentWeather = city || {name: "test2", main: {temp: ""}};
+    let currentId = city.id || 0;
     this.setState({currentWeather, currentId});
   }
 
@@ -103,12 +103,12 @@ class MainViewContainer extends React.Component {
   barMaker(city) {
     const barPercent = this.barPercent(city);
     const linePercent = this.linePercent(city);
-    const order = this.order(city);
+    const color = Math.min(this.order(city) * 4 + 55, 140)
     return  <div className='bar'>
               <div className='fillbar'
                 style={{
                   width: `${barPercent}%`,
-                  background: `hsl(${order * 4 + 55}, 85%, 45%)`
+                  background: `hsl(${color}, 85%, 45%)`
                 }}>
               </div>
               <div className='bound-line' style={{width: `${linePercent}%`}}></div>
@@ -118,7 +118,9 @@ class MainViewContainer extends React.Component {
   render() {
     const sorted = this.sortBars(this.state.weather);
     const cityBars = sorted.map(city => (
-      <li key={city.id}>
+      <li
+        key={city.id}
+        onClick={() => this.setMain(city)}>
           {this.barMaker(city)}
           <p>{city.name}</p>
           <p>{Math.floor(city.main.temp)}</p>

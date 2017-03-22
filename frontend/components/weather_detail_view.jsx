@@ -23,9 +23,10 @@ class WeatherDetailView extends React.Component {
     super(props);
     this.update = this.update.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleUpdateCity = this.handleUpdateCity.bind(this);
     this.handleButton = this.handleButton.bind(this);
     this.toggleButton = this.toggleButton.bind(this);
-    // this.favoriteButton = this.favoriteButton.bind(this);
+    this.cityFromState = this.cityFromState.bind(this);
     this.state = {
       min: "",
       max: "",
@@ -85,16 +86,20 @@ class WeatherDetailView extends React.Component {
     );
   }
 
+  cityFromState() {
+    return {
+      name: this.state.currentWeather.name,
+      user_id: this.props.currentUser.id,
+      api_code: this.state.currentWeather.id,
+      min: this.state.min,
+      max: this.state.max
+    };
+  }
+
   handleButton(e) {
     e.preventDefault();
     if (this.state.buttonWillAdd) {
-      this.props.addCity({
-        name: this.state.currentWeather.name,
-        user_id: this.props.currentUser.id,
-        api_code: this.state.currentWeather.id,
-        min: this.state.min,
-        max: this.state.max
-      })
+      this.props.addCity(this.cityFromState())
       .then(this.props.reloadWeather)
       .then(this.toggleButton);
 
@@ -103,6 +108,13 @@ class WeatherDetailView extends React.Component {
       .then(this.props.reloadWeather)
       .then(this.toggleButton);
     }
+  }
+
+  handleUpdateCity(e) {
+    e.preventDefault();
+    const id = {id: this.props.cities[this.state.currentWeather.id].id};
+    this.props.updateCity(Object.assign(this.cityFromState(), id))
+    .then(this.props.reloadWeather);
   }
 
   toggleButton() {
@@ -122,9 +134,10 @@ class WeatherDetailView extends React.Component {
             onChange={this.update('search')} />
           <button form='search' type='submit'><i className='fa fa-search'/></button>
         </form>
-        <p>{weather.name}</p>
 
+        <p>{weather.name}</p>
         {this.favoriteButton()}
+
         <p>{Math.floor(weather.main.temp)}</p>
         <input
           type='text'
@@ -136,6 +149,12 @@ class WeatherDetailView extends React.Component {
           value={this.state.max}
           placeholder='Max'
           onChange={this.update('max')} />
+        <button
+          style={{display: this.state.buttonWillAdd ? 'none' : 'visible'}}
+          onClick={this.handleUpdateCity}><i
+          className='fa fa-arrow-circle-up'/>
+          Update City
+        </button>
       </div>
     );
   }

@@ -21,7 +21,7 @@ class Api::CitiesController < ApplicationController
 
   def update
     @city = City.find(params[:id])
-    if @city.update(user_params)
+    if @city.update(city_params)
       render :show
     else
       render json: @city.errors, status: 422
