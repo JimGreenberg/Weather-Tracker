@@ -4,13 +4,13 @@ export const fetchWeather = query => {
   const type = !!parseInt(query) ? 'id' : 'q';
   return $.ajax({
     method: "GET",
-    url: `https://api.openweathermap.org/data/2.5/weather?${type}=${query}&appid=${apiKey}&units=imperial`
+    url: `https://api.openweathermap.org/data/2.5/weather?${type}=${query}&APPID=${apiKey}&units=imperial`
   });
 };
 
 export const fetchBatchWeather = query => {
   return $.ajax({
     method: "GET",
-    url: `https://api.openweathermap.org/data/2.5/group?id=${query}&appid=${apiKey}&units=imperial`
+    url: `https://api.openweathermap.org/data/2.5/group?id=${query}&APPID=${apiKey}&units=imperial`
   });
 };
