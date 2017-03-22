@@ -41,11 +41,15 @@
     display: none;
 }
 .navbar {
+  padding: 0 20px;
   position: fixed;
   width: 100%;
   height: 50px;
   display: flex;
+  justify-content: space-around;
   align-items: center;
+  background: rgba(93, 192, 241, 0.31);
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 .mainview-wrapper {
   height: 99vh;
@@ -63,6 +67,27 @@
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0,0,0,0.1);
 }
+#signUp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+#signUp h1 {
+  font-size: 20px;
+  width: 400px;
+}
+#signUp * {
+  text-align: center;
+  width: 100px;
+  padding: 5px;
+  margin: 5px;
+}
+#signIn * {
+  padding: 5px;
+  margin: 5px;
+}
 #search {
   width: 100%;
   margin-bottom: 10px;
@@ -71,10 +96,13 @@
   justify-content: center;
 }
 #search input {
+  outline: none;
   width: 70%;
   padding: 10px;
   border: 1px solid rgba(0,0,0,0.1);
   border-right: none;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 #search button {
   border-top-left-radius: 0;
@@ -90,6 +118,11 @@ button {
 button:hover {
   background: rgba(0,0,0,0.1);
 }
+button:active {
+  background: rgba(0,0,0,0.2);
+  border-top-width: 2px;
+  border-bottom: 0;
+}
 .left {
   flex-basis: 60%;
   padding: 20px;
@@ -97,17 +130,34 @@ button:hover {
 }
 .detail-heading {
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+}
+.detail-heading p {
+  font-size: 30px;
+  margin-left: 10%;
+}
+.detail-heading button {
+  height: 30px;
 }
 .main-detail {
-  margin-top: 10%;
+  position: relative;
+  justify-content: space-around;
+  display: flex;
   font-size: 80px;
-  text-align: right;
   text-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+  line-height: 100px;
+}
+.main-detail p {
+  margin-right: 40px;
+}
+.main-detail img {
+  height: 150px;
+  left: 10%;
+  top: -10%;
 }
 .range-wrapper {
   width: 200px;
-  margin-left: auto;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-self: flex-end;
@@ -142,7 +192,7 @@ button:hover {
   align-content: center;
   position: relative;
   width: 40%;
-  padding: 20px;
+  padding: 20px 40px;
 }
 ul {
   align-self: center;
@@ -177,10 +227,7 @@ p {
 .bound-line {
   position: absolute;
   height: 100%;
-  border-color: rgba(0,0,0,0.2);
-  border-left: none;
-  border-top: none;
-  border-bottom: none;
+  border-right: 1px solid rgba(0,0,0,0.2);
 }
 .fillbar {
   position: absolute;

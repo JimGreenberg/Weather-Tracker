@@ -27,13 +27,17 @@ class MainViewContainer extends React.Component {
       weather: [],
       search: "",
       currentId: 0,
-      currentWeather: {name: "test", main: {temp: ""}}
+      currentWeather: this.dummyWeather()
     };
     this.reloadWeather = this.reloadWeather.bind(this);
     this.sortBars = this.sortBars.bind(this);
     this.update = this.update.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.order = this.order.bind(this);
+  }
+
+  dummyWeather() {
+    return {name: "", main: {temp: ""}, weather:[{icon:""}]};
   }
 
   componentWillMount() {
@@ -51,7 +55,7 @@ class MainViewContainer extends React.Component {
   }
 
   setMain(city = this.state.weather[0]) {
-    let currentWeather = city || {name: "test2", main: {temp: ""}};
+    let currentWeather = city || this.dummyWeather();
     let currentId = city.id || 0;
     this.setState({currentWeather, currentId});
   }
@@ -103,7 +107,7 @@ class MainViewContainer extends React.Component {
   barMaker(city) {
     const barPercent = this.barPercent(city);
     const linePercent = this.linePercent(city);
-    const color = Math.min(this.order(city) * 4 + 55, 140)
+    const color = Math.min(this.order(city) * 4 + 55, 140);
     return  <div className='bar'>
               <div className='fillbar'
                 style={{

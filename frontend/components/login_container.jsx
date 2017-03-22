@@ -44,46 +44,54 @@ class LoginContainer extends React.Component {
       });
     };
   }
+
   handleSignup(e) {
     e.preventDefault();
     if (this.state.signUp.password !== document.getElementById('confirm').value) {
-      this.props.receiveErrors({wowowowowowowowow: "Your re-entered password must match"});
+      this.props.receiveErrors({errors: "Your re-entered password must match"});
     } else {
-      this.props.signUp(this.state.signUp).then(() => this.props.router.push('/'));
+      this.props.signUp(this.state.signUp)
+      .then(() => this.props.router.push('/'));
     }
   }
 
   handleSignin(e) {
     e.preventDefault();
-    this.props.signIn(this.state.signIn).then(() => this.props.router.push('/'));
+    this.props.signIn(this.state.signIn)
+    .then(() => this.props.router.push('/'));
+  }
+
+  handleGuest(e) {
+    e.preventDefault();
+    this.props.signIn({username: 'john_doe', password: 'asdfasdf'})
+    .then(() => this.props.router.push('/'));
   }
 
   render() {
     return(
-      <div>
-        <div className='topbar'>
-          <img src='#'/>
-          <div className='signin-wrapper'>
-            <form id='signIn' onSubmit={this.handleSignin}>
-              <input
-                type="username"
-                value={this.state.signIn.username}
-                placeholder='Username'
-                onChange={this.update("username")} />
-              <input
-                type="password"
-                value={this.state.signIn.password}
-                placeholder='Password'
-                onChange={this.update("password")} />
-              <input
-                type="submit"
-                value="Sign In" />
-            </form>
-          </div>
+      <div className='mainview-wrapper'>
+        <div className='navbar'>
+          <h1>Welcome to the Weather Tracker</h1>
+
+          <form id='signIn' onSubmit={this.handleSignin}>
+            <input
+              type="username"
+              value={this.state.signIn.username}
+              placeholder='Username'
+              onChange={this.update("username")} />
+            <input
+              type="password"
+              value={this.state.signIn.password}
+              placeholder='Password'
+              onChange={this.update("password")} />
+            <button type="submit" form="signIn">Sign In</button>
+            <button type="submit" form="signIn">Sign In</button>
+          </form>
         </div>
 
-        <div className='signup-wrapper'>
+        <div className='content-wrapper'>
           <form id='signUp' onSubmit={this.handleSignup}>
+            <h1>Sign up for the Weather Tracker - it's free!</h1>
             <input
               type="username"
               value={this.state.signUp.username}
@@ -98,9 +106,7 @@ class LoginContainer extends React.Component {
               type="password"
               id='confirm'
               placeholder='Confirm Password'/>
-            <input
-              type="submit"
-              value="Sign Up" />
+            <button type="submit" form="signUp">Sign Up</button>
           </form>
         </div>
         <p>{this.props.errors.session}</p>

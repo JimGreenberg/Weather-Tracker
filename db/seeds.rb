@@ -10,6 +10,9 @@ User.destroy_all
 City.destroy_all
 
 john = User.create!(username: 'john_doe', password:'asdfasdf')
-City.create!(name: 'Kiev', api_code: '703448', min: 50, max:70, user_id: john.id)
-City.create!(name: 'Moscow', api_code: '524901', min: 45, max:70, user_id: john.id)
-City.create!(name: 'London', api_code: '2643743', min: 30, max:90, user_id: john.id)
+City.create!(name: 'Kiev', api_code: '703448', min: 50, max: 70, user_id: john.id)
+City.create!(name: 'Moscow', api_code: '524901', min: 45, max: 70, user_id: john.id)
+City.create!(name: 'London', api_code: '2643743', min: 30, max: 90, user_id: john.id)
+City.create!(name: 'Baghdad', api_code: '98182', min: 45, max: 71, user_id: john.id)
+City.create!(name: 'Miami', api_code: '4164138', min: 50, max: 101, user_id: john.id)
+City.create!(name: 'New York', api_code: '5128581', min: 30, max: 70, user_id: john.id)
