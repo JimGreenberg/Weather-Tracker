@@ -51,7 +51,7 @@ class WeatherDetailView extends React.Component {
     return e => {
       let text = e.currentTarget.value;
       if (field === 'min' || field === 'max') {
-        if (parseInt(text) || text === '-' || text === '') {
+        if (parseInt(text) || text === '-' || text === '' || text === '0') {
           this.setState({[field]: text});
         }
       } else {
