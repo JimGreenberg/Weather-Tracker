@@ -105,8 +105,7 @@ class WeatherDetailView extends React.Component {
 
     } else {
       this.props.deleteCity(this.props.cities[this.state.currentWeather.id])
-      .then(this.props.reloadWeather)
-      .then(this.toggleButton);
+      .then(this.props.reloadWeather);
     }
   }
 
@@ -123,7 +122,7 @@ class WeatherDetailView extends React.Component {
 
   render() {
     const weather = this.state.currentWeather;
-
+    const updateVisible = !this.state.buttonWillAdd;
     return(
       <div className='detail-view left'>
         <form id='search' onSubmit={this.handleSearch}>
@@ -153,7 +152,7 @@ class WeatherDetailView extends React.Component {
             onChange={this.update('min')} />˚F
           </label>
           <button
-            style={{display: this.state.buttonWillAdd ? 'none' : 'visible'}}
+            style={{display: updateVisible ? 'visible' : 'none'}}
             onClick={this.handleUpdateCity}><i
             className='fa fa-arrow-circle-up'/>
           Update City
