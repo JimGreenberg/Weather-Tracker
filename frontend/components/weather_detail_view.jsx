@@ -51,8 +51,8 @@ class WeatherDetailView extends React.Component {
     return e => {
       let text = e.currentTarget.value;
       if (field === 'min' || field === 'max') {
-        if (parseInt(text)) {
-          this.setState({[field]: parseInt(text)});
+        if (parseInt(text) || text === '-' || text === '') {
+          this.setState({[field]: text});
         }
       } else {
         this.setState({[field]: text});
@@ -86,13 +86,24 @@ class WeatherDetailView extends React.Component {
     );
   }
 
+  updateButton() {
+    let bool = !this.state.buttonWillAdd;
+    return (
+      <button
+        className={bool ? 'fa fa-arrow-circle-up' : 'hidden'}
+        onClick={this.handleUpdateCity}>
+        Update City
+      </button>
+    );
+  }
+
   cityFromState() {
     return {
       name: this.state.currentWeather.name,
       user_id: this.props.currentUser.id,
       api_code: this.state.currentWeather.id,
-      min: this.state.min,
-      max: this.state.max
+      min: parseInt(this.state.min),
+      max: parseInt(this.state.max)
     };
   }
 
@@ -151,12 +162,7 @@ class WeatherDetailView extends React.Component {
             placeholder='Min'
             onChange={this.update('min')} />˚F
           </label>
-          <button
-            style={{display: updateVisible ? 'visible' : 'none'}}
-            onClick={this.handleUpdateCity}><i
-            className='fa fa-arrow-circle-up'/>
-          Update City
-        </button>
+        {this.updateButton()}
           <label>maximum
         <input
             className='temp-range'

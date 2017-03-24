@@ -107,7 +107,7 @@ class MainViewContainer extends React.Component {
   barMaker(city) {
     const barPercent = this.barPercent(city);
     const linePercent = this.linePercent(city);
-    const color = Math.min(this.order(city) * 4 + 55, 140);
+    const color = Math.min(this.order(city) * 3 + 75, 115);
     return  <div className='bar'>
               <div className='fillbar'
                 style={{
